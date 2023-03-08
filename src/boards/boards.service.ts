@@ -1,26 +1,11 @@
 import { Injectable } from '@nestjs/common';
+import { Board } from './board.model';
 
 @Injectable()
 export class BoardsService {
-  private boards = [
-    {
-      id: 1,
-      name: 'kim',
-      text: 'I am kim',
-    },
-    {
-      id: 2,
-      name: 'lee',
-      text: 'I am lee',
-    },
-    {
-      id: 3,
-      name: 'park',
-      text: 'I am Park',
-    },
-  ];
+  private boards: Board[] = [];
 
-  getAllBoards() {
+  getAllBoards(): Board[] {
     return this.boards;
   }
 }
