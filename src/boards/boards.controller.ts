@@ -6,6 +6,9 @@ import {
   Param,
   Post,
   Patch,
+  UsePipes,
+  ValidationPipe,
+  NotFoundException,
 } from '@nestjs/common';
 import { BoardsService } from './boards.service';
 import { Board, BoardStatus } from './board.model';
@@ -26,6 +29,7 @@ export class BoardsController {
   // router.post('/', (req, res) => {
   // })
   @Post('/')
+  @UsePipes(ValidationPipe)
   createBoard(@Body() createBoardDto: CreateBoardDto): Board {
     return this.boardService.createBoard(createBoardDto);
   }
@@ -36,7 +40,13 @@ export class BoardsController {
   // params를 이용해서 가져와야 한다.
   @Get('/:id')
   getBoardById(@Param('id') id: string): Board {
-    return this.boardService.getBoardById(id);
+    const result = this.boardService.getBoardById(id);
+
+    if (!result) {
+      throw new NotFoundException(`${id}번 게시물을 찾을 수 없습니다.`);
+    }
+
+    return result;
   }
 
   // 특정 게시물 지우기
