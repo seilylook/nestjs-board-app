@@ -8,7 +8,6 @@ import {
   Patch,
   UsePipes,
   ValidationPipe,
-  NotFoundException,
 } from '@nestjs/common';
 import { BoardsService } from './boards.service';
 import { Board, BoardStatus } from './board.model';
@@ -40,19 +39,13 @@ export class BoardsController {
   // params를 이용해서 가져와야 한다.
   @Get('/:id')
   getBoardById(@Param('id') id: string): Board {
-    const result = this.boardService.getBoardById(id);
-
-    if (!result) {
-      throw new NotFoundException(`${id}번 게시물을 찾을 수 없습니다.`);
-    }
-
-    return result;
+    return this.boardService.getBoardById(id);
   }
 
   // 특정 게시물 지우기
   @Delete('/:id')
   deleteBoard(@Param('id') id: string): void {
-    this.boardService.deleteBoard(id);
+    return this.boardService.deleteBoard(id);
   }
 
   // 특정 게시물 상태 변경
